@@ -34,7 +34,7 @@
     <?php 
     $page=(isset($_GET['page']))?$_GET['page']:"1";
     include_once('pages/classes.php');
-    
+    Tools::SetParam('localhost','root','123456','shop');
     ?>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
@@ -100,12 +100,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- <script src="./Jumbotron Template for Bootstrap_files/jquery.min.js"></script>
-    <script src="./Jumbotron Template for Bootstrap_files/bootstrap.min.js"></script> -->
-    
-    <script src="js/jquery-1.12.4.js"></script>
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>-->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- <script src="js/jquery-1.12.4.js"></script> -->
     <script src="js/jquery-ui.js"></script>
     <script src="js/script.js"></script>
   

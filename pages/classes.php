@@ -98,4 +98,52 @@ class Item{
 		$ps->execute($data);
 
 	}
+	function Draw(){
+		echo "<div class='col-sm-3' style='height:300px'>";
+		echo "<h4 style=font-size:16pt>".$this->itemname."</h4>";
+		echo "<div><img src='".$this->imagepath."' height='100px' style='max-width:150px'><span class='pull-right' style='font-size:18pt'>".$this->pricesale."</span></div>";
+		echo "<div style='overflow:hidden;height:45px'>".$this->info."</div>";
+		echo "<div><button name='cart".$this->id."' type='submit' >В корзину</button> <a class='btn btn-success' href='pages/iteminfo.php?item=".$this->id."'>Подробней</a></div>";
+		echo "</div>";
+	}
+	function DrawCart(){
+		// echo "<div class='col-sm-3' style='height:300px'>";
+		// echo "<table border='1'>";
+		// echo "<tr><th>Ячейка 1</th><th>Ячейка 2</th></tr>";
+  		echo "<tr><td>".$this->itemname."</td><td><img src='".$this->imagepath."' height='100px' style='max-width:150px'></td><td>".$this->info."</td><td><button name='cartdel".$this->id."' type='submit' >Убрать с корзины</button> <a class='btn btn-success' href='pages/iteminfo.php?item=".$this->id."'>Подробней</a></td></tr>"; 
+ 	// 	echo "</table>";
+		//echo "<h4 style=font-size:16pt>".$this->itemname."</h4>";
+		//echo "<div><img src='".$this->imagepath."' height='100px' style='max-width:150px'><span class='pull-right' style='font-size:18pt'>".$this->pricesale."</span></div>";
+		//echo "<div style='overflow:hidden;height:45px'>".$this->info."</div>";
+		//echo "<div><button name='cartdel".$this->id."' type='submit' >Убрать с корзины</button> <a class='btn btn-success' href='pages/iteminfo.php?item=".$this->id."'>Подробней</a></div>";
+		//echo "</div>";
+	}
+	static function fromDb($id){
+		$item=null;
+		try{
+			$pdo=Tools::connect();
+			$ps=$pdo->prepare('select * from Items where id=?');
+			$ps->execute(array($id));
+			$row=$ps->fetch();
+			$data=array('id'=>$row['id'],'itemname'=>$row['itemname'],'catid'=>$row['catid'],'subid'=>$row['subid'],'pricein'=>$row['pricein'],'pricesale'=>$row['pricesale'],'info'=>$row['info'],'rate'=>$row['rate'],'imagepath'=>$row['imagepath'],'action'=>$row['action']);
+			$item=new Item($data);
+			return $item;
+		}
+		catch(PDOException $e){
+			echo $e->getMessage();
+			return false;
+		}
+	}
+	static function GetItems(){
+		$pdo=Tools::connect();
+		$ps=$pdo->prepare('select * from items');
+		$items=array();
+		$ps->execute();
+		while ($row=$ps->fetch()) {
+			$data=array('id'=>$row['id'],'itemname'=>$row['itemname'],'catid'=>$row['catid'],'subid'=>$row['subid'],'pricein'=>$row['pricein'],'pricesale'=>$row['pricesale'],'info'=>$row['info'],'rate'=>$row['rate'],'imagepath'=>$row['imagepath'],'action'=>$row['action']);
+			$i=new Item($data);
+			$items[]=$i;
+		}
+		return $items;
+	}
 }

@@ -14,6 +14,7 @@ body{
     background-color: #D11102;
     border-color: #FE7D3A;
 }
+
 .btn-success{
 	background-color: #FE7D3A;
     border-color: #D11102;
@@ -24,6 +25,7 @@ footer{
 	padding: 0;
 	height: 100px;
 	background-color: #FE7D3A;
+
 }
 
 .marketing{
@@ -46,5 +48,9 @@ footer{
     border: 1px solid #D11102;
     background: #FE7D3A;
     font-weight: normal;
-    color: #ffffff;
+    color: #fff;
 }
+
+
+
+
