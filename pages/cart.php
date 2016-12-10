@@ -26,7 +26,7 @@
                     $total+=$item->getPrice();
                }
             }
-			echo "<td>Общая цена:".$total."</td><td><input value='Оформить заказ' name='subbuy' type='submit' ></td>";
+			echo "<td>Общая цена:".$total."</td><td><input value='Оформить заказ' name='subbuy' type='submit' onmousedown=deleteCookie('".$reguser."') ></td>";
 			echo "</table>";
 			echo "</form>";
 			//переносим в таблицу sale
@@ -41,7 +41,20 @@
 				}
 			}
 			?>
-	  	 	
+	  	 	<script>
+	  	 	//удаление куки по отжатию кнопки оформить заказ
+	  	 	function deleteCookie(rname){
+	  	 		var cookies=document.cookie.split(';');
+	  	 		
+	  	 		for (var i = 1; i <=cookies.length; i++) {
+	  	 			if (cookies[i-1].indexOf(rname)===1) {
+	  	 				var cookie=cookies[i-1].split('=');
+	  	 				var d=new Date(new Date().getTime()-100);
+	  	 				document.cookie=cookie[0]+"="+"0"+";path=/;expires="+d.toUTCString();
+	  	 			}
+	  	 			}
+	  	 	}
+	  	 	</script>
 		</div>
 	</div>
 	<!-- <div class="row">
