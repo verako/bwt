@@ -100,11 +100,22 @@
           ?>
        </form>
         <?php 
-          foreach ($_REQUEST as $k => $v) {
-            if (substr($k,0,4)=='cart') {
-              $iid=substr($k, 4);
-              echo "<script>document.cookie='cart".$iid."=".$iid."'</script>";
-             // setcookie('cart'.$iid,$iid,time()+60*10);
+          $reguser='';
+          if (!isset($_SESSION['reg']) || $_SESSION['reg']=='') 
+          {
+            $reguser='cart';
+          }
+          else
+          {
+            $reguser=$_SESSION['reg'];
+          }
+
+          foreach ($_REQUEST as $k => $v) 
+          {
+            if (substr($k,0,4) =='cart')  
+            {
+              $iid=substr($k,4);
+              echo '<script>document.cookie="'.$reguser.'_'.$iid.'='.$iid.'";</script>';
             }
           }
         ?>

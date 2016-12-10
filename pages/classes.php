@@ -107,16 +107,18 @@ class Item{
 		echo "</div>";
 	}
 	function DrawCart(){
-		// echo "<div class='col-sm-3' style='height:300px'>";
-		// echo "<table border='1'>";
-		// echo "<tr><th>Ячейка 1</th><th>Ячейка 2</th></tr>";
-  		echo "<tr><td>".$this->itemname."</td><td><img src='".$this->imagepath."' height='100px' style='max-width:150px'></td><td>".$this->info."</td><td><button name='cartdel".$this->id."' type='submit' >Убрать с корзины</button> <a class='btn btn-success' href='pages/iteminfo.php?item=".$this->id."'>Подробней</a></td></tr>"; 
- 	// 	echo "</table>";
-		//echo "<h4 style=font-size:16pt>".$this->itemname."</h4>";
-		//echo "<div><img src='".$this->imagepath."' height='100px' style='max-width:150px'><span class='pull-right' style='font-size:18pt'>".$this->pricesale."</span></div>";
-		//echo "<div style='overflow:hidden;height:45px'>".$this->info."</div>";
-		//echo "<div><button name='cartdel".$this->id."' type='submit' >Убрать с корзины</button> <a class='btn btn-success' href='pages/iteminfo.php?item=".$this->id."'>Подробней</a></div>";
-		//echo "</div>";
+		
+  		echo "<tr><td>".$this->itemname."</td><td><img src='".$this->imagepath."' height='100px' style='max-width:150px'></td><td>".$this->info."</td><td>".$this->pricesale."</td>";
+  			if (!isset($_SESSION['reg'])||$_SESSION['reg']=='') {
+  				$reguser='cart_'.$this->id;
+  			}
+  			else{
+  				$reguser=$_SESSION['reg'].'_'.$this->id;
+  			}
+
+  		echo "<td><button onclick=deleteCookie('".$reguser."') >Убрать с корзины</button> </td></tr>"; 
+
+ 	
 	}
 	static function fromDb($id){
 		$item=null;
@@ -145,5 +147,30 @@ class Item{
 			$items[]=$i;
 		}
 		return $items;
+	}
+	function GetPrice(){
+		return $this->pricesale;
+	}
+	function Sale(){
+		try{
+			$pdo=Tools::connect();
+			$reguser='www';
+			if (isset($_SESSION['reg']) && $_SESSION['reg']!="") {
+				$reguser=$_SESSION['reg'];
+			}
+			//увеличивает поле total для пользователей
+			$rq1='update Customers set total=total+? where login=?';
+			$ps1=$pdo->prepare($rq1);
+			$ps1->execute(array($this->pricesale,$reguser));
+			$rq2='insert into Sales(customername, itemname, pricein, pricesale,datesale) values(?,?,?,?,?)';
+			$ps2=$pdo->prepare($rq2);
+			$ps2->execute(array($reguser,$this->itemname,$this->pricein,$this->pricesale,@date('Y/m/d H:i:s')));
+
+		}
+		//ошибки находятся в $e
+		catch(PDOException $e){
+			echo $e->getMessage();//можно закомментировать, чтобы не появлялась ошибка на экране
+			return false;
+		}
 	}
 }
