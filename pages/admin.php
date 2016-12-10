@@ -91,6 +91,10 @@
 		  					//var_dump($data);
 		  					$item=new Item($data);
 		  					$item->intoDb();
+		  					//чтобы форма повторно не отправлялась
+		  					echo "<script>document.location='http://shop/index.php?page=2'</script>";
+		  					//header("Location:".$_SERVER["REQUEST_URI"]);
+		  					exit;
 		  				}
 
 		  			?>

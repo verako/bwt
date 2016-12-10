@@ -93,8 +93,21 @@
         <form action="index.php?page=1" method="post" name='f1'>
             <?php 
             include_once('pages/lists.html');
+            $items=array();
+            if (isset($_GET['subid'])) {
+               $items=Item::GetItems($_GET['subid']);
+            }
+            else
             $items=Item::GetItems();
+
+            if (isset($_GET['min'],$_GET['max'])) {
+             $min=$_GET['min'];
+             $max=$_GET['max'];
+            }
             foreach ($items as $i) {
+              if ($i->GetPrice()<$min||$i->GetPrice()>$max) {
+               continue;
+              }
               $i->Draw();
             }
           ?>
@@ -119,6 +132,13 @@
             }
           }
         ?>
+        <script>
+        function getsubid(subid){
+          document.location='index.php?page=1&subid='+subid;
+        }
+        //in jQuery
+        //document.location='index.php?page=1&min='+hhh+'&max='+xxx;
+        </script>
       
      </div>
   </div> <!-- /container -->

@@ -136,11 +136,19 @@ class Item{
 			return false;
 		}
 	}
-	static function GetItems(){
+	static function GetItems($subid=0){
 		$pdo=Tools::connect();
-		$ps=$pdo->prepare('select * from items');
+		$ps="";
+		if ($subid==0) {
+			$ps=$pdo->prepare('select * from items');
+			$ps->execute();
+		}
+		else{
+			$ps=$pdo->prepare('select * from items where subid=?');
+			$ps->execute(array($subid));
+		}
 		$items=array();
-		$ps->execute();
+		
 		while ($row=$ps->fetch()) {
 			$data=array('id'=>$row['id'],'itemname'=>$row['itemname'],'catid'=>$row['catid'],'subid'=>$row['subid'],'pricein'=>$row['pricein'],'pricesale'=>$row['pricesale'],'info'=>$row['info'],'rate'=>$row['rate'],'imagepath'=>$row['imagepath'],'action'=>$row['action']);
 			$i=new Item($data);
@@ -150,6 +158,7 @@ class Item{
 	}
 	function GetPrice(){
 		return $this->pricesale;
+		
 	}
 	function Sale(){
 		try{

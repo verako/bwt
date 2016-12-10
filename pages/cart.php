@@ -47,7 +47,8 @@
 	  	 		var cookies=document.cookie.split(';');
 	  	 		
 	  	 		for (var i = 1; i <=cookies.length; i++) {
-	  	 			if (cookies[i-1].indexOf(rname)===1) {
+	  	 			cookies[i-1]=cookies[i-1].trim(); //===0 если появляется пробел перед именем
+	  	 			if (cookies[i-1].indexOf(rname)===0) {
 	  	 				var cookie=cookies[i-1].split('=');
 	  	 				var d=new Date(new Date().getTime()-100);
 	  	 				document.cookie=cookie[0]+"="+"0"+";path=/;expires="+d.toUTCString();
