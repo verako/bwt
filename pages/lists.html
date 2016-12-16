@@ -2,6 +2,7 @@
 	<div class="left col-lg-6  col-md-6 col-sm-6 col-xs-12">
 		<label for="cat">Выберите категорию</label><br>
 		<select name="catid" id="catid" onchange=GetSub(this.value)>
+			<option value="default">Категории</option>
 			<?php 
 				$pdo=Tools::connect();
 		        $ps=$pdo->prepare('select * from categories');

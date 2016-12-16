@@ -103,7 +103,7 @@ class Item{
 		echo "<h4 style=font-size:16pt>".$this->itemname."</h4>";
 		echo "<div><img src='".$this->imagepath."' height='100px' style='max-width:150px'><span class='pull-right' style='font-size:18pt'>".$this->pricesale."</span></div>";
 		echo "<div style='overflow:hidden;height:45px'>".$this->info."</div>";
-		echo "<div><button name='cart".$this->id."' type='submit' >В корзину</button> <a class='btn btn-success' href='pages/iteminfo.php?item=".$this->id."'>Подробней</a></div>";
+		echo "<div><button name='cart".$this->id."' type='submit' >В корзину</button> <a class='btn btn-success' href='index.php?page=6?item=".$this->id."'>Подробней</a></div>";
 		echo "</div>";
 	}
 	function DrawCart(){

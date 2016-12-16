@@ -35,6 +35,7 @@
     $page=(isset($_GET['page']))?$_GET['page']:"1";
     include_once('pages/classes.php');
     Tools::SetParam('localhost','root','123456','shop');
+    $pdo=Tools::connect();
     ?>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container-fluid">
@@ -87,6 +88,9 @@
           break;
         case 5:
           include "pages/cabinet.php";
+          break;
+        case 6:
+          include "pages/iteminfo.php";
           break;
         default:
           echo "Страница не найдена";

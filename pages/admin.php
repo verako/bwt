@@ -81,8 +81,8 @@
 		  						$path='images/'.$_FILES['file']['name'];
 		  						move_uploaded_file($_FILES['file']['tmp_name'], $path);
 		  					}
-		  					$catid=$_POST['cat'];
-		  					$subid=$_POST['subcat'];
+		  					$catid=$_POST['catid'];
+		  					$subid=$_POST['subid'];
 		  					$pricein=$_POST['pricein'];
 		  					$pricesale=$_POST['pricesale'];
 		  					$info=trim($_POST['info']);
@@ -92,9 +92,9 @@
 		  					$item=new Item($data);
 		  					$item->intoDb();
 		  					//чтобы форма повторно не отправлялась
-		  					echo "<script>document.location='http://shop/index.php?page=2'</script>";
+		  					//echo "<script>document.location='http://shop/index.php?page=2'</script>";
 		  					//header("Location:".$_SERVER["REQUEST_URI"]);
-		  					exit;
+		  					//exit;
 		  				}
 
 		  			?>

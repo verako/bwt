@@ -89,9 +89,42 @@
   </div>
   <div class="container marketing">
      <div class="row">
+
+        <div class="col-md-11">
+                
+        
         
         <form action="index.php?page=1" method="post" name='f1'>
+          <label for="amount">Диапазон цен:</label>
+          <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
             <?php 
+
+            $issid='';
+            if (isset($_GET['subid'])) $issid='&subid='.$_GET['subid'];
+            echo '<form action="index.php?page=1'.$issid.'" method="post">';
+            //фильтр по мин/макс
+           // echo "<h3>выберите диапазон:</h3>";
+            echo '<div id="slider-range"></div>';
+            $ps=$pdo->query('select MAX(pricesale) from items');
+            $row=$ps->fetch(PDO::FETCH_LAZY);
+            $bdmax=$row['MAX(pricesale)'];
+            $ps=$pdo->query('select MIN(pricesale) from items');
+            $row=$ps->fetch(PDO::FETCH_LAZY);
+            $bdmin=$row['MIN(pricesale)'];
+            
+            if(isset($_GET['min'],$_GET['max'])){
+              $min=$_GET['min'];
+              $max=$_GET['max'];
+             
+            }
+            else{
+              $min=$bdmin;
+              $max=$bdmax;
+            }
+           
+            echo '<div>Выбран диапазон от: <span id="smin">'.$min.'</span> до <span id="smax">'.$max.'</span> грн.</div>';
+
+
             include_once('pages/lists.html');
             $items=array();
             if (isset($_GET['subid'])) {
@@ -133,13 +166,36 @@
           }
         ?>
         <script>
-        function getsubid(subid){
-          document.location='index.php?page=1&subid='+subid;
-        }
-        //in jQuery
-        //document.location='index.php?page=1&min='+hhh+'&max='+xxx;
+          function getsubid(subid){
+            var min=document.getElementById('smin').innerHTML;
+            var max=document.getElementById('smax').innerHTML;
+            document.location='index.php?page=1&subid='+subid;
+            document.location='index.php?page=1&min='+hhh+'&max='+xxx;
+          }
+          
+          var m=$('#smin').text();
+          var ma=$('#smax').text();
+          console.log (m);
+          console.log (ma);
+          $( function() { 
+            $( "#slider-range" ).slider({
+            range: true,
+            min: 0,
+            max: 100000,
+            values: [ 75, 900000 ],
+            slide: function( event, ui ) {
+              $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+            }
+          });
+          $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+            " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+          } );
+          $("#slider-range").slider( "option", "min", m );
+          $("#slider-range").slider( "option", "max", ma );
+          $("#slider-range").slider( "values", [ min, max ] );
+          
         </script>
-      
+      </div>
      </div>
   </div> <!-- /container -->
    
